@@ -1,108 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab 9</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lab 9</title>
+    <style>
+      button {
+        margin: 3px;
+      }
 
-  <style>
-    button {
-      margin: 3px;
-    }
+      button:hover {
+        cursor: pointer;
+      }
 
-    button:hover {
-      cursor: pointer;
-    }
+      #first-num,
+      #second-num {
+        width: 60px;
+      }
 
-    #first-num,
-    #second-num {
-      width: 60px;
-    }
+      output {
+        border: 1px solid gray;
+        display: block;
+        height: 18px;
+        margin-top: 5px;
+        padding: 5px;
+        width: 240px;
+      }
 
-    output {
-      border: 1px solid gray;
-      display: block;
-      height: 18px;
-      margin-top: 5px;
-      padding: 5px;
-      width: 240px;
-    }
+      main {
+        width: 800px;
+      }
 
-    main {
-      width: 800px;
-    }
+      #error-btns {
+        column-gap: 5px;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        row-gap: 5px;
+      }
 
-    #error-btns {
-      column-gap: 5px;
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 30px;
-      row-gap: 5px;
-    }
+      #error-btns > * {
+        padding: 8px 2px;
+        width: 122px;
+      }
+    </style>
+  </head>
 
-    #error-btns>* {
-      padding: 8px 2px;
-      width: 122px;
-    }
-  </style>
-</head>
+  <body>
+    <main>
+      <form>
+        <fieldset>
+          <legend>Error Calculator</legend>
+          <input name="first-num" id="first-num" />
+          <select name="operator" id="operator">
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+          </select>
+          <input name="second-num" id="second-num" />
+          <button id="calculate">Calculate</button>
+          <br />
+          <output></output>
+        </fieldset>
+      </form>
 
-<body>
-  <main>
-    <form>
-      <fieldset>
-        <legend>Error Calculator</legend>
-        <input name="first-num" id="first-num" />
-        <select name="operator" id="operator">
-          <option>+</option>
-          <option>-</option>
-          <option>*</option>
-          <option>/</option>
-        </select>
-        <input name="second-num" id="second-num" />
-        <button id="calculate">Calculate</button>
-        <br />
-        <output></output>
-      </fieldset>
-    </form>
+      <section id="error-btns">
+        <button>Console Log</button>
+        <button>Console Error</button>
+        <button>Console Count</button>
+        <button>Console Warn</button>
+        <button>Console Assert</button>
+        <button>Console Clear</button>
+        <button>Console Dir</button>
+        <button>Console dirxml</button>
+        <button>Console Group Start</button>
+        <button>Console Group End</button>
+        <button>Console Table</button>
+        <button>Start Timer</button>
+        <button>End Timer</button>
+        <button>Console Trace</button>
+        <button>Trigger a Global Error</button>
+      </section>
+    </main>
 
-    <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
-    </section>
-  </main>
+    <script>
+      let form = document.querySelector("form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let output = document.querySelector("output");
+        let firstNum = document.querySelector("#first-num").value;
+        let secondNum = document.querySelector("#second-num").value;
+        let operator = document.querySelector("#operator").value;
+        try {
+          output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+        } catch (err) {
+          alert("Please enter valid numbers");
+        } finally {
+          alert("Current output is: " + output.innerHTML);
+        }
+        if (isNaN(output.innerHTML) || !isFinite(output.innerHTML)) {
+          throw new isNaNError(
+            "The Output is Not a Valid Numeric Value or is Infinite"
+          );
+        }
+      });
 
-  <script>
-    let form = document.querySelector('form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-    });
+      let errorBtns = Array.from(
+        document.querySelectorAll("#error-btns > button")
+      );
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+      // Start your code here
+      // You may move this JS to another file if you wish
 
-    // Start your code here
-    // You may move this JS to another file if you wish
-  </script>
-</body>
+      for (let i = 0; i < errorBtns.length; i++) {
+        errorBtns[i].addEventListener("click", () => {
+          switch (i) {
+            case 0: // Console Log
+              console.log("Console Log Demo");
+              break;
+            case 1: // Console Error
+              console.error("Console Error Demo");
+              break;
+            case 2: // Console Count
+              console.count("Count Button");
+              break;
+            case 3: // Console Warn
+              console.warn("Console Warn Button");
+              break;
+            case 4: // Console Assert
+              const number = 2;
+              const errorMsg = "The number does not equal 3";
+              console.assert(number == 3, { number, errorMsg });
+              break;
+            case 5: // Console Clear
+              console.clear();
+              break;
+            case 6: // Console Dir
+              console.dir(errorBtns[i]);
+              break;
+            case 7: // Console Dirxml
+              console.dirxml(errorBtns[i]);
+              break;
+            case 8: // Console Group Start
+              console.group("console.group");
+              break;
+            case 9: // Console Group End
+              console.groupEnd("console.group");
+              break;
+            case 10: // Console Table
+              console.table([
+                { name: "Software Engineering", num: 110 },
+                {
+                  name: "Programming Languages: Principles and Paradigms",
+                  num: 130,
+                },
+                { name: "Advanced Software Engineering", num: 112 },
+              ]);
+              break;
+            case 11: // Start Timer
+              console.time("Timer Button");
+              break;
+            case 12: // End Timer
+              console.timeEnd("Timer Button");
+              break;
+            case 13: // Console Trace
+              const deep = () => {
+                deeper();
+              };
+              const deeper = () => {
+                deepest();
+              };
+              const deepest = () => {
+                console.trace();
+              };
+              deep();
+              break;
+            case 14: // Trigger Global Error
+              boom("this should throw an error");
+              break;
+            default:
+              console.log("default");
+          }
+        });
+      }
 
+      class isNaNError extends Error {
+        constructor(message) {
+          super(message);
+          this.name = "isNaNError";
+        }
+      }
+
+      window.onerror = function (event, source, lineno, colno, error) {
+        console.log("Sadly an error happened");
+        console.log("Global Error: " + event);
+        console.log("Source: " + source);
+      };
+    </script>
+  </body>
 </html>
